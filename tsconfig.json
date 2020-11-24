@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+        "allowSyntheticDefaultImports": true,
+        "jsx": "react-native",
+        "lib": ["dom", "esnext"],
+        "moduleResolution": "node",
+        "baseUrl": "./",
+        "paths": {
+            "tests/*": ["tests/*"],
+            "constants": ["./src/constants/index.ts"],
+            "components": ["src/components/index.ts"],
+            "containers": ["src/containers/index.ts"],
+            "utils/*": ["src/utils/*"],
+            "types": ["src/types/index.ts"],
+            "assets/*": ["assets/*"]
+        },
+        "noEmit": true,
+        "skipLibCheck": true,
+        "resolveJsonModule": true,
+        "strict": true
+    }
+}
