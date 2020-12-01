@@ -12,27 +12,28 @@ import { numberColors } from 'constants';
 
 export const Case: React.FC<CaseProps> = (props: CaseProps) => {
     const [labeled, setLabeled] = useState('none');
-    const [revealed, setRevealed] = useState(false);
 
     const handleTouchCase = () => {
         if (labeled === 'none') {
-            setRevealed(true);
+            props.revealFn();
         }
     };
 
     const handleLongTouchCase = () => {
-        switch (labeled) {
-            case 'none':
-                setLabeled('flag');
-                break;
-            case 'flag':
-                setLabeled('questionMark');
-                break;
-            case 'questionMark':
-                setLabeled('none');
-                break;
+        if (!props.revealed) {
+            switch (labeled) {
+                case 'none':
+                    setLabeled('flag');
+                    break;
+                case 'flag':
+                    setLabeled('questionMark');
+                    break;
+                case 'questionMark':
+                    setLabeled('none');
+                    break;
+            }
+            Vibration.vibrate(100);
         }
-        Vibration.vibrate(100);
     };
 
     return (
@@ -40,7 +41,7 @@ export const Case: React.FC<CaseProps> = (props: CaseProps) => {
             onPress={handleTouchCase}
             onLongPress={handleLongTouchCase}
         >
-            {!revealed ? (
+            {!props.revealed ? (
                 <View style={styles['case-container']}>
                     <Image
                         style={styles['image-case']}
@@ -61,14 +62,22 @@ export const Case: React.FC<CaseProps> = (props: CaseProps) => {
                 </View>
             ) : (
                 <View style={styles['case-revealed']}>
-                    <Text
-                        style={{
-                            color: numberColors[props.nearMines],
-                            ...styles['numbers']
-                        }}
-                    >
-                        {props.nearMines}
-                    </Text>
+                    {props.nearMines !== 0 && (
+                        <Text
+                            style={{
+                                color: numberColors[props.nearMines],
+                                ...styles['numbers']
+                            }}
+                        >
+                            {props.nearMines}
+                        </Text>
+                    )}
+                    {props.isMine && (
+                        <Image
+                            style={styles['image-flag']}
+                            source={require('../../../assets/landMineIcon.png')}
+                        />
+                    )}
                 </View>
             )}
         </TouchableWithoutFeedback>

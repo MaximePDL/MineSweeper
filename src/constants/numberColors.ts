@@ -1,5 +1,5 @@
 export const numberColors = [
-    'none',
+    'black',
     'blue',
     'green',
     'red',
