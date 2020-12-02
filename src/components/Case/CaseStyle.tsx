@@ -19,6 +19,16 @@ export default StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
+    'case-revealed-lose': {
+        width: width,
+        height: width,
+        backgroundColor: 'red',
+        borderWidth: 0.5,
+        borderColor: '#A9A9A9',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
     numbers: {
         fontSize: 0.8 * width
     },

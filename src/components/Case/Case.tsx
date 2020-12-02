@@ -1,38 +1,30 @@
-import React, { useState } from 'react';
-import {
-    View,
-    Image,
-    Text,
-    TouchableWithoutFeedback,
-    Vibration
-} from 'react-native';
+import React, { useContext, useState } from 'react';
+import { View, Image, Text, TouchableWithoutFeedback } from 'react-native';
 import { CaseProps } from 'types';
 import styles from './CaseStyle';
-import { numberColors } from 'constants';
+import { GameFinished, numberColors } from 'constants';
 
 export const Case: React.FC<CaseProps> = (props: CaseProps) => {
-    const [labeled, setLabeled] = useState('none');
+    const gameEnd = useContext(GameFinished);
+    const [lose, setLose] = useState(false);
 
     const handleTouchCase = () => {
-        if (labeled === 'none') {
-            props.revealFn();
+        var toReveal = 0;
+
+        if (!props.revealed && props.labeled === 'none' && !gameEnd) {
+            if (props.isMine) {
+                setLose(true);
+            }
+            toReveal = props.revealFn(1);
+        }
+        if (!gameEnd) {
+            props.updateProgression(toReveal);
         }
     };
 
     const handleLongTouchCase = () => {
-        if (!props.revealed) {
-            switch (labeled) {
-                case 'none':
-                    setLabeled('flag');
-                    break;
-                case 'flag':
-                    setLabeled('questionMark');
-                    break;
-                case 'questionMark':
-                    setLabeled('none');
-                    break;
-            }
-            Vibration.vibrate(100);
+        if (!props.revealed && !gameEnd) {
+            props.labelFn();
         }
     };
 
@@ -48,12 +40,12 @@ export const Case: React.FC<CaseProps> = (props: CaseProps) => {
                         source={require('../../../assets/Case.png')}
                     />
 
-                    {labeled === 'flag' ? (
+                    {props.labeled === 'flag' ? (
                         <Image
                             style={styles['image-flag']}
                             source={require('../../../assets/redFlag.png')}
                         ></Image>
-                    ) : labeled === 'questionMark' ? (
+                    ) : props.labeled === 'questionMark' ? (
                         <Image
                             style={styles['image-flag']}
                             source={require('../../../assets/questionMark.png')}
@@ -61,7 +53,13 @@ export const Case: React.FC<CaseProps> = (props: CaseProps) => {
                     ) : null}
                 </View>
             ) : (
-                <View style={styles['case-revealed']}>
+                <View
+                    style={
+                        lose
+                            ? styles['case-revealed-lose']
+                            : styles['case-revealed']
+                    }
+                >
                     {props.nearMines !== 0 && (
                         <Text
                             style={{
