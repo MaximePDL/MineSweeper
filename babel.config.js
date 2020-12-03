@@ -10,10 +10,9 @@ module.exports = function (api) {
                 {
                     root: ['./'],
                     alias: {
-                        constants: './src/constants/index.ts',
-                        types: './src/types/index.ts',
-                        components: './src/components/index.ts',
-                        containers: './src/containers/index.ts'
+                        Constants: './src/Constants/index.ts',
+                        Components: './src/Components/index.ts',
+                        Containers: './src/Containers/index.ts'
                     }
                 }
             ]

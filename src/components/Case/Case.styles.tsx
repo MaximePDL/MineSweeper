@@ -4,12 +4,12 @@ import { StyleSheet } from 'react-native';
 const width = 30;
 
 export default StyleSheet.create({
-    'case-container': {
+    caseContainer: {
         width: width,
         height: width,
         backgroundColor: '#CECECE'
     },
-    'case-revealed': {
+    caseRevealed: {
         width: width,
         height: width,
         backgroundColor: '#CECECE',
@@ -19,7 +19,7 @@ export default StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
-    'case-revealed-lose': {
+    caseRevealedLose: {
         width: width,
         height: width,
         backgroundColor: 'red',
@@ -32,15 +32,14 @@ export default StyleSheet.create({
     numbers: {
         fontSize: 0.8 * width
     },
-    'image-case': {
-        position: 'absolute',
-        width: '100%',
-        height: '100%'
+    imageCase: {
+        width: width,
+        height: width
     },
-    'image-flag': {
-        position: 'absolute',
+    imageFlag: {
+        width: 0.6 * width,
+        height: 0.6 * width,
         margin: '20%',
-        width: '60%',
-        height: '60%'
+        position: 'absolute'
     }
 });

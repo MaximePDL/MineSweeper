@@ -6,13 +6,11 @@
         "moduleResolution": "node",
         "baseUrl": "./",
         "paths": {
-            "tests/*": ["tests/*"],
-            "constants": ["./src/constants/index.ts"],
-            "components": ["src/components/index.ts"],
-            "containers": ["src/containers/index.ts"],
-            "utils/*": ["src/utils/*"],
-            "types": ["src/types/index.ts"],
-            "assets/*": ["assets/*"]
+            "Tests/*": ["./tests/*"],
+            "Constants": ["./src/Constants/index.ts"],
+            "Components": ["./src/Components/index.ts"],
+            "Containers": ["./src/Containers/index.ts"],
+            "assets/*": ["./assets/*"]
         },
         "noEmit": true,
         "skipLibCheck": true,

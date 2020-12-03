@@ -1,3 +1,4 @@
-export { Case } from './Case';
-export { Grid } from './Grid';
-export { AnimatedEndGame } from './AnimatedEngGame';
+export { Case } from './Case/Case.component';
+export { Grid } from './Grid/Grid.component';
+export { AnimatedEndGame } from './AnimatedEngGame/AnimatedEndGame.component';
+export { Row } from './Row/Row.component';

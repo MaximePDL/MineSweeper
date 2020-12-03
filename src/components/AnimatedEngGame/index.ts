@@ -1,1 +1,0 @@
-export { AnimatedEndGame } from './AnimatedEndGame';
