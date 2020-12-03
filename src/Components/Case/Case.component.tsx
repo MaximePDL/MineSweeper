@@ -1,34 +1,26 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { View, Image, Text, TouchableWithoutFeedback } from 'react-native';
 import { CaseProps, Label } from './Case.types';
 import styles from './Case.styles';
 import { numberColors } from 'Constants';
 
-const handleTouch = (
-    setLoseByMe: Function,
-    reveal: Function,
-    isMine: boolean
-) => {
-    if (isMine) {
-        setLoseByMe(true);
-    }
-
-    reveal();
-};
-
-const handleLongTouch = (label: Function) => {
-    label();
-};
-export const Case: React.FC<CaseProps> = (props: CaseProps) => {
+export const Case: React.FC<CaseProps> = React.memo((props: CaseProps) => {
     const [loseByMe, setLoseByMe] = useState(false);
 
+    const reveal = useCallback(() => {
+        if (props.isMine) {
+            setLoseByMe(true);
+        }
+
+        props.dispatch({ type: 'reveal', payload: { x: props.x, y: props.y } });
+    }, [props.dispatch, props.x, props.y, props.isMine]);
+
+    const label = useCallback(() => {
+        props.dispatch({ type: 'label', payload: { x: props.x, y: props.y } });
+    }, [props.dispatch, props.x, props.y]);
+
     return (
-        <TouchableWithoutFeedback
-            onPress={() =>
-                handleTouch(setLoseByMe, props.revealFn, props.isMine)
-            }
-            onLongPress={() => handleLongTouch(props.labelFn)}
-        >
+        <TouchableWithoutFeedback onPress={reveal} onLongPress={label}>
             {!props.revealed ? (
                 <View style={styles.caseContainer}>
                     <Image
@@ -74,4 +66,4 @@ export const Case: React.FC<CaseProps> = (props: CaseProps) => {
             )}
         </TouchableWithoutFeedback>
     );
-};
+});

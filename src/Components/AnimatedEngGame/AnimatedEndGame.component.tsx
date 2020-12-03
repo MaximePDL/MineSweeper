@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import {
     View,
     Text,
@@ -6,7 +6,6 @@ import {
     useWindowDimensions,
     Animated
 } from 'react-native';
-import { GameFinished } from 'Constants';
 import { EndGameProps } from './AnimatedEndGame.types';
 import styles from './AnimatedEndGame.style';
 import { EndGame } from '../Grid/Grid.types';

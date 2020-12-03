@@ -12,6 +12,7 @@ export interface Case {
 }
 
 export interface CaseProps extends Case {
-    revealFn: Function;
-    labelFn: Function;
+    dispatch: Function;
+    x: number;
+    y: number;
 }

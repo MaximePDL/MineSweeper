@@ -1,7 +1,6 @@
 import { AnimatedEndGame, Grid } from 'Components';
-import { GameFinished } from 'src/Constants';
-import React, { useEffect, useState } from 'react';
-import { Modal, View, Text, Button } from 'react-native';
+import React, { useState } from 'react';
+import { View } from 'react-native';
 import { GameSettings } from './Game.types';
 import styles from './Game.styles';
 import { EndGame } from '../../Components/Grid/Grid.types';
