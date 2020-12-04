@@ -104,6 +104,27 @@ function initGameState(gameSettings: GameSettings): State {
     };
 }
 
+const neighbours = (gameMatrix: Case[][], x: number, y: number): number[][] => {
+    return [
+        [x + 1, y],
+        [x - 1, y],
+        [x, y + 1],
+        [x, y - 1],
+        [x + 1, y + 1],
+        [x - 1, y + 1],
+        [x + 1, y - 1],
+        [x - 1, y - 1]
+    ].reduce((acc: number[][], node) => {
+        if (typeof gameMatrix[node[1]] !== 'undefined') {
+            if (typeof gameMatrix[node[1]][node[0]] !== 'undefined') {
+                acc.push([node[0], node[1]]);
+                return acc;
+            }
+        }
+        return acc;
+    }, []);
+};
+
 const reveal = (
     gameMatrix: Case[][],
     toDiscover: number,
@@ -111,40 +132,26 @@ const reveal = (
     y: number,
     endGame: EndGame
 ) => {
-    if (!gameMatrix[y][x].revealed) {
+    if (!gameMatrix[y][x].revealed && gameMatrix[y][x].labeled === Label.None) {
         gameMatrix[y][x].revealed = true;
         switch (gameMatrix[y][x].nearMines) {
             case 0:
                 toDiscover--;
-                [
-                    [x + 1, y],
-                    [x - 1, y],
-                    [x, y + 1],
-                    [x, y - 1],
-                    [x + 1, y + 1],
-                    [x - 1, y + 1],
-                    [x + 1, y - 1],
-                    [x - 1, y - 1]
-                ].map((node) => {
-                    if (typeof gameMatrix[node[1]] !== 'undefined') {
-                        if (
-                            typeof gameMatrix[node[1]][node[0]] !== 'undefined'
-                        ) {
-                            if (!gameMatrix[node[1]][node[0]].revealed) {
-                                var rev = reveal(
-                                    gameMatrix,
-                                    toDiscover,
-                                    node[0],
-                                    node[1],
-                                    endGame
-                                );
-                                gameMatrix = rev.gameMatrix;
-                                toDiscover = rev.toDiscover;
-                                endGame = rev.endGame;
-                            }
-                        }
+                neighbours(gameMatrix, x, y).map((node) => {
+                    if (!gameMatrix[node[1]][node[0]].revealed) {
+                        var rev = reveal(
+                            gameMatrix,
+                            toDiscover,
+                            node[0],
+                            node[1],
+                            endGame
+                        );
+                        gameMatrix = rev.gameMatrix;
+                        toDiscover = rev.toDiscover;
+                        endGame = rev.endGame;
                     }
                 });
+
                 break;
             case -1:
                 endGame = EndGame.Lose;
@@ -152,6 +159,32 @@ const reveal = (
             default:
                 toDiscover = toDiscover - 1;
                 return { gameMatrix, toDiscover, endGame };
+        }
+        return { gameMatrix, toDiscover, endGame };
+    }
+    if (gameMatrix[y][x].revealed) {
+        const directNeighbours = neighbours(gameMatrix, x, y);
+        const flagNumber = directNeighbours.reduce(
+            (acc, elt) =>
+                acc +
+                (gameMatrix[elt[1]][elt[0]].labeled === Label.Flag ? 1 : 0),
+            0
+        );
+        if (flagNumber === gameMatrix[y][x].nearMines) {
+            directNeighbours.map((node) => {
+                if (!gameMatrix[node[1]][node[0]].revealed) {
+                    var rev = reveal(
+                        gameMatrix,
+                        toDiscover,
+                        node[0],
+                        node[1],
+                        endGame
+                    );
+                    gameMatrix = rev.gameMatrix;
+                    toDiscover = rev.toDiscover;
+                    endGame = rev.endGame;
+                }
+            });
         }
         return { gameMatrix, toDiscover, endGame };
     }

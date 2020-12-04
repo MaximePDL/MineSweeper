@@ -6,7 +6,7 @@ import { Game } from 'Containers';
 export default function App() {
     return (
         <View style={styles.mainContainer}>
-            <Game width={9} height={9} mines={10} />
+            <Game width={15} height={25} mines={30} />
         </View>
     );
 }

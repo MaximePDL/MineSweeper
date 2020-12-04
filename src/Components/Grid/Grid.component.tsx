@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { FlatList, View } from 'react-native';
+import { FlatList, ScrollView } from 'react-native';
 import { GridProps } from './Grid.types';
 import styles from './Grid.styles';
 import useGame from '../../Hooks/useGame';
@@ -19,12 +19,12 @@ export const Grid: React.FC<GridProps> = (props: GridProps) => {
     );
 
     return (
-        <View style={styles.mainContainer}>
+        <ScrollView style={styles.mainContainer} horizontal>
             <FlatList
                 data={game.state.gameMatrix}
                 renderItem={renderItem}
                 keyExtractor={(item, index) => index.toString()}
             ></FlatList>
-        </View>
+        </ScrollView>
     );
 };

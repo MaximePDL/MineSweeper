@@ -20,6 +20,7 @@ export const Row: React.FC<RowProps> = (props: RowProps) => {
     return (
         <FlatList
             horizontal
+            scrollEnabled={false}
             data={props.row}
             renderItem={renderItem}
             keyExtractor={(item, index) =>
