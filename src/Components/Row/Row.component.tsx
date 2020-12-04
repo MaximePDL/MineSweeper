@@ -12,7 +12,7 @@ export const Row: React.FC<RowProps> = (props: RowProps) => {
                 x={index}
                 y={props.rowId}
                 dispatch={props.dispatch}
-            ></Case>
+            />
         ),
         [props.dispatch, props.rowId]
     );
@@ -23,9 +23,9 @@ export const Row: React.FC<RowProps> = (props: RowProps) => {
             scrollEnabled={false}
             data={props.row}
             renderItem={renderItem}
-            keyExtractor={(item, index) =>
+            keyExtractor={(_item, index) =>
                 (props.rowId * props.row.length + index).toString()
             }
-        ></FlatList>
+        />
     );
 };

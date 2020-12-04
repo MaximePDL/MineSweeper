@@ -1,10 +1,10 @@
-import React, { useEffect, useReducer } from 'react';
+import { useEffect, useReducer } from 'react';
 import { Vibration } from 'react-native';
 import { Case, Label } from '../Components/Case/Case.types';
 import { EndGame, State } from '../Components/Grid/Grid.types';
 import { GameSettings, useGameArgs } from '../Containers/Game/Game.types';
 
-const createGameMatrix = (
+export const createGameMatrix = (
     width: number,
     height: number,
     mines: number
@@ -26,7 +26,7 @@ const createGameMatrix = (
     return gameMatrix;
 };
 
-const updateNumbersInMatrix = (
+export const updateNumbersInMatrix = (
     gameMatrix: number[][],
     x: number,
     y: number,
@@ -77,7 +77,7 @@ const updateNumbersInMatrix = (
     return matrix;
 };
 
-function initGameState(gameSettings: GameSettings): State {
+export function initGameState(gameSettings: GameSettings): State {
     const gameMatrix: number[][] = createGameMatrix(
         gameSettings.width,
         gameSettings.height,
@@ -89,7 +89,7 @@ function initGameState(gameSettings: GameSettings): State {
                 isMine: elt === -1,
                 nearMines: elt,
                 revealed: false,
-                labeled: Label.None
+                labeled: Label.None,
             })
         )
     );
@@ -100,11 +100,15 @@ function initGameState(gameSettings: GameSettings): State {
         gameMatrix: mat,
         toDiscover: toDiscover,
         toFlag: toFlag,
-        endGame: EndGame.NotYet
+        endGame: EndGame.NotYet,
     };
 }
 
-const neighbours = (gameMatrix: Case[][], x: number, y: number): number[][] => {
+export const neighbours = (
+    gameMatrix: Case[][],
+    x: number,
+    y: number
+): number[][] => {
     return [
         [x + 1, y],
         [x - 1, y],
@@ -113,7 +117,7 @@ const neighbours = (gameMatrix: Case[][], x: number, y: number): number[][] => {
         [x + 1, y + 1],
         [x - 1, y + 1],
         [x + 1, y - 1],
-        [x - 1, y - 1]
+        [x - 1, y - 1],
     ].reduce((acc: number[][], node) => {
         if (typeof gameMatrix[node[1]] !== 'undefined') {
             if (typeof gameMatrix[node[1]][node[0]] !== 'undefined') {
@@ -125,7 +129,7 @@ const neighbours = (gameMatrix: Case[][], x: number, y: number): number[][] => {
     }, []);
 };
 
-const reveal = (
+export const reveal = (
     gameMatrix: Case[][],
     toDiscover: number,
     x: number,
@@ -136,7 +140,7 @@ const reveal = (
         gameMatrix[y][x].revealed = true;
         switch (gameMatrix[y][x].nearMines) {
             case 0:
-                toDiscover--;
+                toDiscover = toDiscover - 1;
                 neighbours(gameMatrix, x, y).map((node) => {
                     if (!gameMatrix[node[1]][node[0]].revealed) {
                         var rev = reveal(
@@ -191,15 +195,20 @@ const reveal = (
     return { gameMatrix, toDiscover, endGame };
 };
 
-const label = (gameMatrix: Case[][], toFlag: number, x: number, y: number) => {
+export const label = (
+    gameMatrix: Case[][],
+    toFlag: number,
+    x: number,
+    y: number
+) => {
     switch (gameMatrix[y][x].labeled) {
         case Label.None:
             gameMatrix[y][x].labeled = Label.Flag;
-            toFlag = toFlag + 1;
+            toFlag = toFlag - 1;
             break;
         case Label.Flag:
             gameMatrix[y][x].labeled = Label.Question;
-            toFlag = toFlag - 1;
+            toFlag = toFlag + 1;
             break;
         case Label.Question:
             gameMatrix[y][x].labeled = Label.None;
@@ -231,7 +240,7 @@ const reducer = (state: State, action: { type: any; payload: any }): State => {
                     gameMatrix: gameMatrix,
                     toDiscover: toDiscover,
                     toFlag: state.toFlag,
-                    endGame: newEndGame
+                    endGame: newEndGame,
                 };
             case 'label':
                 var gameMatrix = state.gameMatrix.slice();
@@ -248,7 +257,7 @@ const reducer = (state: State, action: { type: any; payload: any }): State => {
                     gameMatrix: gameMatrix,
                     toDiscover: state.toDiscover,
                     toFlag: toFlag,
-                    endGame: state.endGame
+                    endGame: state.endGame,
                 };
         }
     }
@@ -270,7 +279,7 @@ export default (args: useGameArgs) => {
         if (state.endGame === EndGame.Lose) {
             args.handleEndGame(EndGame.Lose);
         }
-    }, [state.toDiscover, state.endGame]);
+    }, [state.toDiscover, state.endGame, args]);
 
     return { state: state, dispatch: dispatch };
 };

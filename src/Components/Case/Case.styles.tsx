@@ -1,4 +1,3 @@
-import React from 'react';
 import { StyleSheet } from 'react-native';
 
 const width = 30;
@@ -7,7 +6,7 @@ export default StyleSheet.create({
     caseContainer: {
         width: width,
         height: width,
-        backgroundColor: '#CECECE'
+        backgroundColor: '#CECECE',
     },
     caseRevealed: {
         width: width,
@@ -17,7 +16,7 @@ export default StyleSheet.create({
         borderColor: '#A9A9A9',
         display: 'flex',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     caseRevealedLose: {
         width: width,
@@ -27,19 +26,19 @@ export default StyleSheet.create({
         borderColor: '#A9A9A9',
         display: 'flex',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     numbers: {
-        fontSize: 0.8 * width
+        fontSize: 0.8 * width,
     },
     imageCase: {
         width: width,
-        height: width
+        height: width,
     },
     imageFlag: {
         width: 0.6 * width,
         height: 0.6 * width,
         margin: '20%',
-        position: 'absolute'
-    }
+        position: 'absolute',
+    },
 });

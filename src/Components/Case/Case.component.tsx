@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { View, Image, Text, TouchableWithoutFeedback } from 'react-native';
 import { CaseProps, Label } from './Case.types';
 import styles from './Case.styles';
@@ -13,11 +13,11 @@ export const Case: React.FC<CaseProps> = React.memo((props: CaseProps) => {
         }
 
         props.dispatch({ type: 'reveal', payload: { x: props.x, y: props.y } });
-    }, [props.dispatch, props.x, props.y, props.isMine]);
+    }, [props]);
 
     const label = useCallback(() => {
         props.dispatch({ type: 'label', payload: { x: props.x, y: props.y } });
-    }, [props.dispatch, props.x, props.y]);
+    }, [props]);
 
     return (
         <TouchableWithoutFeedback onPress={reveal} onLongPress={label}>
@@ -32,7 +32,7 @@ export const Case: React.FC<CaseProps> = React.memo((props: CaseProps) => {
                         <Image
                             style={styles.imageFlag}
                             source={require('../../../assets/redFlag.png')}
-                        ></Image>
+                        />
                     ) : props.labeled === Label.Question ? (
                         <Image
                             style={styles.imageFlag}
@@ -50,7 +50,7 @@ export const Case: React.FC<CaseProps> = React.memo((props: CaseProps) => {
                         <Text
                             style={{
                                 color: numberColors[props.nearMines],
-                                ...styles['numbers']
+                                ...styles.numbers,
                             }}
                         >
                             {props.nearMines}

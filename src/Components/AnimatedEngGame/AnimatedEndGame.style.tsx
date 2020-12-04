@@ -1,9 +1,8 @@
-import React from 'react';
-import { StyleSheet, useWindowDimensions } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
     text: {
-        textAlign: 'center'
+        textAlign: 'center',
     },
     mainContainer: {
         position: 'absolute',
@@ -14,12 +13,15 @@ export default StyleSheet.create({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        borderStyle: 'solid',
+        borderWidth: 1,
+        borderColor: 'black',
     },
     container: {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'space-evenly'
-    }
+        justifyContent: 'space-evenly',
+    },
 });

@@ -1,5 +1,3 @@
-const { stringify } = require('querystring');
-
 module.exports = function (api) {
     api.cache(true);
     return {
@@ -12,10 +10,10 @@ module.exports = function (api) {
                     alias: {
                         Constants: './src/Constants/index.ts',
                         Components: './src/Components/index.ts',
-                        Containers: './src/Containers/index.ts'
-                    }
-                }
-            ]
-        ]
+                        Containers: './src/Containers/index.ts',
+                    },
+                },
+            ],
+        ],
     };
 };

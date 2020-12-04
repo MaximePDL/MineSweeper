@@ -1,7 +1,7 @@
 export enum Label {
     None = 'NONE',
     Flag = 'FLAG',
-    Question = 'QUESTION'
+    Question = 'QUESTION',
 }
 
 export interface Case {

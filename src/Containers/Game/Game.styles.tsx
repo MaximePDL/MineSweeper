@@ -1,10 +1,10 @@
-import React from 'react';
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
     main: {
         display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center'
-    }
+        alignItems: 'center',
+        marginTop: 40,
+        flex: 1,
+    },
 });

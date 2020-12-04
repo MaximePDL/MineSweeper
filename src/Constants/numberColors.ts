@@ -7,5 +7,5 @@ export const numberColors: Record<number, string> = {
     5: '#800000',
     6: '#008B8B',
     7: '#4B0082',
-    8: '#FF1493'
+    8: '#FF1493',
 };

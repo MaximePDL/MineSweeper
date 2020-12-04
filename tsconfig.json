@@ -10,7 +10,8 @@
             "Constants": ["./src/Constants/index.ts"],
             "Components": ["./src/Components/index.ts"],
             "Containers": ["./src/Containers/index.ts"],
-            "assets/*": ["./assets/*"]
+            "assets/*": ["./assets/*"],
+            "src/*": ["./src/*"]
         },
         "noEmit": true,
         "skipLibCheck": true,

@@ -4,27 +4,37 @@ import { GridProps } from './Grid.types';
 import styles from './Grid.styles';
 import useGame from '../../Hooks/useGame';
 import { Row } from '../Row/Row.component';
+import { ProgressBar } from '../ProgressBar/ProgressBar.component';
 
 export const Grid: React.FC<GridProps> = (props: GridProps) => {
-    const game = useGame({
+    const { state, dispatch } = useGame({
         gameSettings: props.gameSettings,
-        handleEndGame: props.handleEndGame
+        handleEndGame: props.handleEndGame,
     });
 
     const renderItem = useCallback(
         ({ item, index }: any) => (
-            <Row rowId={index} dispatch={game.dispatch} row={item}></Row>
+            <Row rowId={index} dispatch={dispatch} row={item} />
         ),
-        [game.dispatch]
+        [dispatch]
     );
 
     return (
-        <ScrollView style={styles.mainContainer} horizontal>
-            <FlatList
-                data={game.state.gameMatrix}
-                renderItem={renderItem}
-                keyExtractor={(item, index) => index.toString()}
-            ></FlatList>
+        <ScrollView contentContainerStyle={styles.main}>
+            <ProgressBar
+                toFlag={state.toFlag}
+                handleRetry={props.handleRetry}
+                endGame={state.endGame}
+                toDiscover={state.toDiscover}
+                handleChangeSettings={props.handleChangeSettings}
+            />
+            <ScrollView style={styles.mainContainer} horizontal>
+                <FlatList
+                    data={state.gameMatrix}
+                    renderItem={renderItem}
+                    keyExtractor={(_item, index) => index.toString()}
+                />
+            </ScrollView>
         </ScrollView>
     );
 };

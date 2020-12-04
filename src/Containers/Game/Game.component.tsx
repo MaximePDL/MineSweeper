@@ -1,7 +1,7 @@
 import { AnimatedEndGame, Grid } from 'Components';
 import React, { useState } from 'react';
 import { View } from 'react-native';
-import { GameSettings } from './Game.types';
+import { GameProps } from './Game.types';
 import styles from './Game.styles';
 import { EndGame } from '../../Components/Grid/Grid.types';
 
@@ -17,7 +17,7 @@ const handleRetry = (
 const handleEndGame = (endGame: EndGame, setGameResult: Function) =>
     setGameResult(endGame);
 
-export const Game: React.FC<GameSettings> = (props: GameSettings) => {
+export const Game: React.FC<GameProps> = (props: GameProps) => {
     const [gameResult, setGameResult] = useState(EndGame.NotYet);
     const [key, setKey] = useState(1);
 
@@ -29,11 +29,13 @@ export const Game: React.FC<GameSettings> = (props: GameSettings) => {
                     handleEndGame(endGame, setGameResult)
                 }
                 gameSettings={props}
-            ></Grid>
+                handleRetry={() => handleRetry(key, setKey, setGameResult)}
+                handleChangeSettings={props.handleChangeSettings}
+            />
             <AnimatedEndGame
                 gameResult={gameResult}
                 handleRetry={() => handleRetry(key, setKey, setGameResult)}
-            ></AnimatedEndGame>
+            />
         </View>
     );
 };
